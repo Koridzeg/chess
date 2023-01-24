@@ -1,5 +1,5 @@
 import React from 'react'
-import { ChessPieceType, RowIndex } from './types'
+import { ChessPieceType, } from './types'
 
 type ChessPieceProps = {
     type: ChessPieceType,

@@ -7,7 +7,7 @@ import { ChessPieceType } from './types';
 
 
 const ChessBoard: React.FC = () => {
-    const [board, setBoard] = useState<Array<Array<{ type: ChessPieceType, color: string }>>>(initializeBoard());
+    const [board, ] = useState(initializeBoard());
     return (
         <div className='chessboard-wrapper'>
             <div className="chess-board">
@@ -15,7 +15,7 @@ const ChessBoard: React.FC = () => {
                     <div className="chess-row" key={i}>
                         {row.map((square, j) => {
                             const isBlack = (i + j) % 2 !== 0;
-                            const squareColor = isBlack ? 'black' : 'white';
+                            const squareColor = isBlack ? 'brown' : 'white';
                             return <div className={`chess-square ${squareColor}`} key={j} >
                              {square && <ChessPiece type={square.type} color={square.color} />}
                             </div>

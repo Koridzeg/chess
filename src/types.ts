@@ -18,3 +18,7 @@ export enum RowIndex {
     H = 7,
 }
 
+export enum Color {
+    WHITE = 'white',
+    BROWN = 'brown',
+}

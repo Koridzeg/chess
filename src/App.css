@@ -8,6 +8,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
 }
 
 .chess-board {
@@ -27,8 +28,8 @@
   background-color: white;
 }
 
-.chess-square.black {
-  background-color: black;
+.chess-square.brown {
+  background-color: brown;
 }
 
 /* Chess Pieces */
