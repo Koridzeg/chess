@@ -1,23 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
 import ChessPiece from './ChessPiece';
-import { initializeBoard } from './game';
-import { ChessPieceType } from './types';
+import { Square } from './types';
 
+type ChessBoardState = {
+    state: Square[][],
+    setState: (newState: Square[][]) => void;
+    handleSquareClick: (i: number, j: number) => void;
+}
 
+const ChessBoard: React.FC<ChessBoardState> = ({ state, setState, handleSquareClick }) => {
 
-const ChessBoard: React.FC = () => {
-    const [board, ] = useState(initializeBoard());
     return (
         <div className='chessboard-wrapper'>
             <div className="chess-board">
-                {board.map((row, i) => (
+                {state.map((row, i) => (
                     <div className="chess-row" key={i}>
                         {row.map((square, j) => {
-                            const isBlack = (i + j) % 2 !== 0;
-                            const squareColor = isBlack ? 'brown' : 'white';
-                            return <div className={`chess-square ${squareColor}`} key={j} >
-                             {square && <ChessPiece type={square.type} color={square.color} />}
+                            const isBrown = (i + j) % 2 !== 0;
+                            const squareColor = isBrown ? 'brown' : 'white';
+                            return <div className={`chess-square ${squareColor}`} key={j} onClick={() => handleSquareClick(i, j)} >
+                                {square && <ChessPiece type={square.type} color={square.color} />}
                             </div>
                         })}
                     </div>

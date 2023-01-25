@@ -7,18 +7,13 @@ export enum ChessPieceType {
   Pawn = 6,
 }
 
-export enum RowIndex {
-    A = 0,
-    B = 1,
-    C = 2,
-    D = 3,
-    E = 4,
-    F = 5,
-    G = 6,
-    H = 7,
-}
 
 export enum Color {
-    WHITE = 'white',
-    BROWN = 'brown',
+  WHITE = "white",
+  BLACK = "black",
 }
+
+export type Square = {
+  type: ChessPieceType;
+  color: string;
+} | null;
