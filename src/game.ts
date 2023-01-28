@@ -91,11 +91,9 @@ const validateMove = (
     case ChessPieceType.Pawn:
       if (piece.color === Color.WHITE) {
         if (getCol(from) === 1 && to[0] === 3 && getRow(from) === to[1]) {
-          console.log("aq");
           return true;
         }
         if (getCol(from) - to[0] === -1 && getRow(from) === to[1]) {
-          console.log("aqaaqaqa");
           return true;
         }
         //TODO this should only be allowed if there is black piece on to[i] square
@@ -103,7 +101,6 @@ const validateMove = (
           getCol(from) - to[0] === -1 &&
           Math.abs(getRow(from) - to[1]) === 1
         ) {
-          console.log("aqahdsadajsdhj");
           return true;
         }
       } else if (piece.color === Color.BLACK) {
@@ -123,6 +120,43 @@ const validateMove = (
         }
       }
 
+      break;
+    case ChessPieceType.Rook:
+      if (getRow(from) === to[1] || getCol(from) === to[0]) {
+        return true;
+      }
+      break;
+    case ChessPieceType.Knight:
+      if (
+        (Math.abs(getCol(from) - to[0]) === 2 &&
+          Math.abs(getRow(from) - to[1]) === 1) ||
+        (Math.abs(getCol(from) - to[0]) === 1 &&
+          Math.abs(getRow(from) - to[1]) === 2)
+      ) {
+        return true;
+      }
+      break;
+    case ChessPieceType.Bishop:
+      if (Math.abs(getCol(from) - to[0]) === Math.abs(getRow(from) - to[1])) {
+        return true;
+      }
+      break;
+    case ChessPieceType.Queen:
+      if (
+        Math.abs(getCol(from) - to[0]) === Math.abs(getRow(from) - to[1]) ||
+        getCol(from) === to[0] ||
+        getRow(from) === to[1]
+      ) {
+        return true;
+      }
+      break;
+    case ChessPieceType.King:
+      if (
+        Math.abs(getCol(from) - to[0]) <= 1 &&
+        Math.abs(getRow(from) - to[1]) <= 1
+      ) {
+        return true;
+      }
       break;
   }
 
