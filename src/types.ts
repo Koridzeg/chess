@@ -17,3 +17,5 @@ export type Square = {
   type: ChessPieceType;
   color: string;
 } | null;
+
+export type SquareCoordinate = [number,number]
