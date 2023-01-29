@@ -31,18 +31,18 @@ export const initializeBoard = (): Square[][] => {
   ];
 };
 
-const getRow = (coord: SquareCoordinate) => {
+const row = (coord: SquareCoordinate) => {
   return coord[1];
 };
 
-const getCol = (coord: SquareCoordinate) => {
+const col = (coord: SquareCoordinate) => {
   return coord[0];
 };
 
 const getPiece = (boardState: Square[][], coord: SquareCoordinate) => {
-  const row = getRow(coord);
-  const col = getCol(coord);
-  return boardState[col][row];
+  const r = row(coord);
+  const c = col(coord);
+  return boardState[c][r];
 };
 
 export const makeMove = (
@@ -57,9 +57,9 @@ export const makeMove = (
   }
   const newBoardState = [...state];
   const piece = getPiece(state, from);
-  newBoardState[to[0]][to[1]] = piece;
+  newBoardState[col(to)][row(to)] = piece;
   // TODO find alternative solution to not use nulls
-  newBoardState[getCol(from)][getRow(from)] = null;
+  newBoardState[col(from)][row(from)] = null;
   setState(newBoardState);
   console.log(from);
   console.log(to);
@@ -70,19 +70,22 @@ const validateMove = (
   from: SquareCoordinate,
   to: SquareCoordinate
 ): boolean => {
-  const piece = state[getCol(from)][getRow(from)];
+  const piece = state[col(from)][row(from)];
 
   if (!piece) {
     console.log("sa");
     return false;
   }
 
-  if (getCol(from) === to[0] && getRow(from) === to[1]) {
+  if (col(from) === col(to) && row(from) === row(to)) {
     console.log("sad");
     return false;
   }
 
-  if (state[to[0]][to[1]] && state[to[0]][to[1]]?.color === piece.color) {
+  if (
+    state[col(to)][row(to)] &&
+    state[col(to)][row(to)]?.color === piece.color
+  ) {
     console.log("sadasd");
     return false;
   }
@@ -90,70 +93,64 @@ const validateMove = (
   switch (piece.type) {
     case ChessPieceType.Pawn:
       if (piece.color === Color.WHITE) {
-        if (getCol(from) === 1 && to[0] === 3 && getRow(from) === to[1]) {
+        if (col(from) === 1 && col(to) === 3 && row(from) === row(to)) {
           return true;
         }
-        if (getCol(from) - to[0] === -1 && getRow(from) === to[1]) {
+        if (col(from) - col(to) === -1 && row(from) === row(to)) {
           return true;
         }
         //TODO this should only be allowed if there is black piece on to[i] square
-        if (
-          getCol(from) - to[0] === -1 &&
-          Math.abs(getRow(from) - to[1]) === 1
-        ) {
+        if (col(from) - col(to) === -1 && Math.abs(row(from) - row(to)) === 1) {
           return true;
         }
       } else if (piece.color === Color.BLACK) {
-        if (getCol(from) === 6 && to[0] === 4 && getRow(from) === to[1]) {
+        if (col(from) === 6 && col(to) === 4 && row(from) === row(to)) {
           return true;
         }
 
-        if (getCol(from) - to[0] === 1 && getRow(from) === to[1]) {
+        if (col(from) - col(to) === 1 && row(from) === row(to)) {
           return true;
         }
         //TODO same rule as above
-        if (
-          getCol(from) - to[0] === 1 &&
-          Math.abs(getRow(from) - to[1]) === 1
-        ) {
+        if (col(from) - col(to) === 1 && Math.abs(row(from) - row(to)) === 1) {
           return true;
         }
       }
 
       break;
     case ChessPieceType.Rook:
-      if (getRow(from) === to[1] || getCol(from) === to[0]) {
+      if (row(from) === row(to) || col(from) === col(to)) {
         return true;
       }
       break;
     case ChessPieceType.Knight:
       if (
-        (Math.abs(getCol(from) - to[0]) === 2 &&
-          Math.abs(getRow(from) - to[1]) === 1) ||
-        (Math.abs(getCol(from) - to[0]) === 1 &&
-          Math.abs(getRow(from) - to[1]) === 2)
+        (Math.abs(col(from) - col(to)) === 2 &&
+          Math.abs(row(from) - row(to)) === 1) ||
+        (Math.abs(col(from) - col(to)) === 1 &&
+          Math.abs(row(from) - row(to)) === 2)
       ) {
         return true;
       }
       break;
     case ChessPieceType.Bishop:
-      if (Math.abs(getCol(from) - to[0]) === Math.abs(getRow(from) - to[1])) {
+      if (Math.abs(col(from) - col(to)) === Math.abs(row(from) - row(to))) {
         return true;
       }
       break;
     case ChessPieceType.Queen:
       if (
-        Math.abs(getCol(from) - to[0]) === Math.abs(getRow(from) - to[1]) ||
-        getCol(from) === to[0] ||
-        getRow(from) === to[1]
+        Math.abs(col(from) - col(to)) === Math.abs(row(from) - row(to)) ||
+        col(from) === col(to) ||
+        row(from) === row(to)
       ) {
         return true;
       }
       break;
     case ChessPieceType.King:
       if (
-        Math.abs(getCol(from) - to[0]) <= 1 &&
-        Math.abs(getRow(from) - to[1]) <= 1
+        Math.abs(col(from) - col(to)) <= 1 &&
+        Math.abs(row(from) - row(to)) <= 1
       ) {
         return true;
       }
