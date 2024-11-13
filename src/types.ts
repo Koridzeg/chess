@@ -7,7 +7,6 @@ export enum ChessPieceType {
   Pawn = 6,
 }
 
-
 export enum Color {
   WHITE = "white",
   BLACK = "black",
@@ -18,4 +17,4 @@ export type Square = {
   color: string;
 } | null;
 
-export type SquareCoordinate = [number,number]
+export type SquareCoordinate = [number, number];

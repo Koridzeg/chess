@@ -31,6 +31,8 @@ export const initializeBoard = (): Square[][] => {
   ];
 };
 
+let moveOrder: Color = Color.WHITE;
+
 const row = (coord: SquareCoordinate) => {
   return coord[1];
 };
@@ -55,6 +57,7 @@ export const makeMove = (
     console.log("invalid move");
     return;
   }
+  console.log(state);
   const newBoardState = [...state];
   const piece = getPiece(state, from);
   newBoardState[col(to)][row(to)] = piece;
@@ -63,6 +66,8 @@ export const makeMove = (
   setState(newBoardState);
   console.log(from);
   console.log(to);
+  moveOrder = moveOrder === Color.WHITE ? Color.BLACK : Color.WHITE;
+  console.log("Move complete. Next turn:", moveOrder);
 };
 
 const validateMove = (
@@ -73,12 +78,15 @@ const validateMove = (
   const piece = state[col(from)][row(from)];
 
   if (!piece) {
-    console.log("sa");
+    return false;
+  }
+
+  if (piece.color !== moveOrder) {
+    console.log("not your turn");
     return false;
   }
 
   if (col(from) === col(to) && row(from) === row(to)) {
-    console.log("sad");
     return false;
   }
 
@@ -86,7 +94,6 @@ const validateMove = (
     state[col(to)][row(to)] &&
     state[col(to)][row(to)]?.color === piece.color
   ) {
-    console.log("sadasd");
     return false;
   }
 
